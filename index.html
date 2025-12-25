@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece: Top 30 All Time</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        body {
+            background-image: url('background.jpg'); 
+            background-color: #1a1510;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.2rem;
+            text-shadow: 0px 0px 10px #000, 0px 0px 20px #d4af37;
+            text-transform: uppercase;
+            border-bottom: 3px solid #d4af37;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            background-color: rgba(0,0,0,0.6);
+            padding: 15px;
+            border-radius: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* --- TIER CONTAINER --- */
+        .tier-container {
+            display: flex;
+            margin-bottom: 15px;
+            border: 3px solid #2a2a2a;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            min-height: 130px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .tier-header {
+            width: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            font-weight: 800;
+            font-size: 1.6rem; 
+            color: white;
+            text-shadow: 2px 2px 4px black;
+            border-right: 3px solid #2a2a2a;
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+        
+        .tier-content {
+            flex-grow: 1;
+            background-color: rgba(20, 20, 20, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        /* --- TIER COLORS --- */
+        .tier-100 .tier-header { background: linear-gradient(180deg, #FFD700, #B8860B); color: #423108; } /* Gold */
+        .tier-99 .tier-header { background: linear-gradient(180deg, #FF4500, #8B0000); } /* Red */
+        .tier-97 .tier-header { background: linear-gradient(180deg, #9932CC, #4B0082); } /* Purple */
+        .tier-94 .tier-header { background: linear-gradient(180deg, #32CD32, #006400); } /* Green */
+        .tier-89 .tier-header { background: linear-gradient(180deg, #1E90FF, #00008B); } /* Blue */
+
+        /* --- CHARACTER CARD --- */
+        .char-card {
+            width: 85px;
+            height: 110px;
+            background-color: #222;
+            border: 2px solid #d4af37;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0;
+            cursor: grab;
+            transition: transform 0.2s;
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .char-card:hover { 
+            transform: scale(1.15); 
+            z-index: 100; 
+            box-shadow: 0 0 15px #d4af37;
+            border-color: white;
+        }
+        
+        .char-card.dragging { opacity: 0.5; cursor: grabbing; }
+
+        /* --- IMAGE STYLES --- */
+        .char-img-container {
+            width: 100%;
+            height: 85px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        .char-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .char-img-fallback { color: #777; font-size: 2rem; font-weight: bold; display: none; }
+
+        .power-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: linear-gradient(135deg, #ff0000, #990000);
+            color: white;
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border: 1px solid white;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            cursor: pointer;
+            z-index: 5;
+        }
+        .power-badge:hover { background: #ff5555; transform: scale(1.1); }
+
+        .char-name {
+            font-size: 0.65rem;
+            text-align: center;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 4px 2px;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background-color: #111;
+        }
+        
+        .tooltip {
+            text-align: center; color: #bbb; margin-bottom: 20px; font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ONE PIECE: TOP 30 STRONGEST TIER LIST (ALL TIME)</h1>
+    <div class="tooltip">Drag to reorder • Click number to edit score</div>
+
+    <div class="tier-container tier-100">
+        <div class="tier-header">100</div>
+        <div class="tier-content" id="tier-100"></div>
+    </div>
+    <div class="tier-container tier-99">
+        <div class="tier-header">99-98</div>
+        <div class="tier-content" id="tier-99"></div>
+    </div>
+    <div class="tier-container tier-97">
+        <div class="tier-header">97-95</div>
+        <div class="tier-content" id="tier-97"></div>
+    </div>
+    <div class="tier-container tier-94">
+        <div class="tier-header">94-90</div>
+        <div class="tier-content" id="tier-94"></div>
+    </div>
+    <div class="tier-container tier-89">
+        <div class="tier-header">89-85</div>
+        <div class="tier-content" id="tier-89"></div>
+    </div>
+
+    <script>
+        // --- DATA SETUP ---
+        let characters = [
+            // Tier 100
+            { name: "Imu", score: 100, file: "imu" },
+            { name: "Joyboy", score: 100, file: "joyboy" },
+            
+            // Tier 99-98
+            { name: "Roger", score: 99, file: "roger" },
+            { name: "Shanks", score: 99, file: "shanks" },
+            { name: "Loki", score: 98, file: "loki" },
+            { name: "Dragon", score: 98, file: "dragon" },
+            { name: "Garp", score: 98, file: "garp" },
+            { name: "Rocks", score: 98, file: "rocks" },
+            { name: "Harald", score: 98, file: "harald" },
+
+            // Tier 97-95
+            { name: "Mihawk", score: 97, file: "mihawk" },
+            { name: "Akainu", score: 97, file: "akainu" },
+            { name: "Blackbeard", score: 97, file: "blackbeard" },
+            { name: "Luffy", score: 97, file: "luffy" },
+            { name: "Shamrock", score: 97, file: "shamrock" },
+            { name: "Whitebeard", score: 97, file: "whitebeard" },
+            { name: "Sengoku", score: 97, file: "sengoku" },
+            { name: "Kuzan", score: 96, file: "kuzan" },
+            { name: "Kaido", score: 96, file: "kaido" },
+            { name: "Big Mom", score: 96, file: "bigmom" },
+            { name: "Garling", score: 95, file: "garling" },
+
+            // Tier 94-90
+            { name: "Gorosei", score: 94, file: "gorosei" },
+            { name: "Greenbull", score: 94, file: "greenbull" },
+            { name: "Kizaru", score: 94, file: "kizaru" },
+            { name: "Fujitora", score: 94, file: "fujitora" },
+            { name: "Rayleigh", score: 93, file: "rayleigh" },
+            { name: "Gaban", score: 93, file: "gaban" },
+            { name: "Oden", score: 92, file: "oden" },
+
+            // Tier 89-85
+            { name: "Zoro", score: 90, file: "zoro" },
+            { name: "Kid", score: 88, file: "kid" },
+            { name: "Law", score: 88, file: "law" }
+        ];
+
+        function renderCards() {
+            document.querySelectorAll('.tier-content').forEach(div => div.innerHTML = '');
+            characters.forEach((char, index) => {
+                createCardElement(char, index);
+            });
+        }
+
+        function createCardElement(char, index) {
+            const card = document.createElement('div');
+            card.classList.add('char-card');
+            card.setAttribute('draggable', 'true');
+            card.setAttribute('id', 'char-' + index);
+
+            card.addEventListener('dragstart', () => card.classList.add('dragging'));
+            card.addEventListener('dragend', () => card.classList.remove('dragging'));
+
+            card.innerHTML = `
+                <div class="power-badge" onclick="editScore(${index}, this)">${char.score}</div>
+                <div class="char-img-container">
+                    <img src="${char.file}.png" class="char-img" onerror="tryJpg(this, '${char.file}')">
+                    <div class="char-img-fallback">${char.name.charAt(0)}</div>
+                </div>
+                <div class="char-name">${char.name}</div>
+            `;
+            placeCardInCorrectTier(card, char.score);
+        }
+
+        function tryJpg(imgElement, fileName) {
+            imgElement.onerror = function() {
+                this.style.display = 'none';
+                this.parentElement.querySelector('.char-img-fallback').style.display = 'block';
+            };
+            imgElement.src = fileName + ".jpg";
+        }
+
+        function placeCardInCorrectTier(cardElement, score) {
+            let targetId = "";
+            if (score >= 100) targetId = "tier-100";
+            else if (score >= 98) targetId = "tier-99";
+            else if (score >= 95) targetId = "tier-97";
+            else if (score >= 90) targetId = "tier-94";
+            else targetId = "tier-89";
+            
+            const targetDiv = document.getElementById(targetId);
+            if (targetDiv) targetDiv.appendChild(cardElement);
+        }
+
+        function editScore(index, badgeElement) {
+            event.stopPropagation();
+            let newScore = prompt("Enter new power rating (0-100):", characters[index].score);
+            if (newScore !== null && !isNaN(newScore) && newScore !== "") {
+                newScore = parseInt(newScore);
+                if(newScore > 100) newScore = 100;
+                if(newScore < 0) newScore = 0;
+                characters[index].score = newScore;
+                renderCards(); 
+            }
+        }
+
+        // --- DRAG & DROP LOGIC ---
+        const tiers = document.querySelectorAll('.tier-content');
+        tiers.forEach(tier => {
+            tier.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(tier, e.clientX, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                if (afterElement == null) {
+                    tier.appendChild(draggable);
+                } else {
+                    tier.insertBefore(draggable, afterElement);
+                }
+            });
+        });
+
+        function getDragAfterElement(container, x, y) {
+            const draggableElements = [...container.querySelectorAll('.char-card:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offsetX = x - (box.left + box.width / 2);
+                const offsetY = y - (box.top + box.height / 2);
+                const dist = Math.hypot(offsetX, offsetY);
+                if (dist < closest.dist) return { dist: dist, element: child };
+                else return closest;
+            }, { dist: Number.POSITIVE_INFINITY }).element;
+        }
+
+        renderCards();
+    </script>
+</body>
+</html>
