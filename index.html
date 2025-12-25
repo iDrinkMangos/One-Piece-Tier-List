@@ -186,47 +186,49 @@
     </div>
 
     <script>
-        // --- DATA SETUP ---
+        // --- DATA SETUP (UPDATED TO UPPERCASE FILES) ---
+        // I have capitalized the 'file' property to match your "LUFFY.png" files.
         let characters = [
             // Tier 100
-            { name: "Imu", score: 100, file: "imu" },
-            { name: "Joyboy", score: 100, file: "joyboy" },
+            { name: "Imu", score: 100, file: "IMU" },
+            { name: "Joyboy", score: 100, file: "JOYBOY" },
             
             // Tier 99-98
-            { name: "Roger", score: 99, file: "roger" },
-            { name: "Shanks", score: 99, file: "shanks" },
-            { name: "Loki", score: 98, file: "loki" },
-            { name: "Dragon", score: 98, file: "dragon" },
-            { name: "Garp", score: 98, file: "garp" },
-            { name: "Rocks", score: 98, file: "rocks" },
-            { name: "Harald", score: 98, file: "harald" },
+            { name: "Roger", score: 99, file: "ROGER" },
+            { name: "Shanks", score: 99, file: "SHANKS" },
+            { name: "Loki", score: 98, file: "LOKI" },
+            { name: "Dragon", score: 98, file: "DRAGON" },
+            { name: "Garp", score: 98, file: "GARP" },
+            { name: "Rocks", score: 98, file: "ROCKS" },
+            { name: "Harald", score: 98, file: "HARALD" },
 
             // Tier 97-95
-            { name: "Mihawk", score: 97, file: "mihawk" },
-            { name: "Akainu", score: 97, file: "akainu" },
-            { name: "Blackbeard", score: 97, file: "blackbeard" },
-            { name: "Luffy", score: 97, file: "luffy" },
-            { name: "Shamrock", score: 97, file: "shamrock" },
-            { name: "Whitebeard", score: 97, file: "whitebeard" },
-            { name: "Sengoku", score: 97, file: "sengoku" },
-            { name: "Kuzan", score: 96, file: "kuzan" },
-            { name: "Kaido", score: 96, file: "kaido" },
-            { name: "Big Mom", score: 96, file: "bigmom" },
-            { name: "Garling", score: 95, file: "garling" },
+            { name: "Mihawk", score: 97, file: "MIHAWK" },
+            { name: "Akainu", score: 97, file: "AKAINU" },
+            { name: "Blackbeard", score: 97, file: "BLACKBEARD" },
+            { name: "Luffy", score: 97, file: "LUFFY" },
+            { name: "Shamrock", score: 97, file: "SHAMROCK" },
+            { name: "Whitebeard", score: 97, file: "WHITEBEARD" },
+            { name: "Sengoku", score: 97, file: "SENGOKU" },
+            { name: "Kuzan", score: 96, file: "KUZAN" },
+            { name: "Kaido", score: 96, file: "KAIDO" },
+            { name: "Big Mom", score: 96, file: "BIGMOM" },
+            { name: "Garling", score: 95, file: "GARLING" },
 
             // Tier 94-90
-            { name: "Gorosei", score: 94, file: "gorosei" },
-            { name: "Greenbull", score: 94, file: "greenbull" },
-            { name: "Kizaru", score: 94, file: "kizaru" },
-            { name: "Fujitora", score: 94, file: "fujitora" },
-            { name: "Rayleigh", score: 93, file: "rayleigh" },
-            { name: "Gaban", score: 93, file: "gaban" },
-            { name: "Oden", score: 92, file: "oden" },
+            { name: "Gorosei", score: 94, file: "GOROSEI" },
+            { name: "Greenbull", score: 94, file: "GREENBULL" },
+            { name: "Kizaru", score: 94, file: "KIZARU" },
+            { name: "Fujitora", score: 94, file: "FUJITORA" },
+            { name: "Rayleigh", score: 93, file: "RAYLEIGH" },
+            { name: "Gaban", score: 93, file: "GABAN" },
+            { name: "Sabo", score: 92, file: "SABO" },
+            { name: "Oden", score: 92, file: "ODEN" },
 
             // Tier 89-85
-            { name: "Zoro", score: 90, file: "zoro" },
-            { name: "Kid", score: 88, file: "kid" },
-            { name: "Law", score: 88, file: "law" }
+            { name: "Zoro", score: 90, file: "ZORO" },
+            { name: "Kid", score: 88, file: "KID" },
+            { name: "Law", score: 88, file: "LAW" }
         ];
 
         function renderCards() {
@@ -256,12 +258,20 @@
             placeCardInCorrectTier(card, char.score);
         }
 
+        // Updated error handler to check Uppercase JPG as fallback
         function tryJpg(imgElement, fileName) {
             imgElement.onerror = function() {
-                this.style.display = 'none';
-                this.parentElement.querySelector('.char-img-fallback').style.display = 'block';
+                // If .png failed, try .jpg
+                // If .jpg fails, hide image
+                this.onerror = function() {
+                   this.style.display = 'none';
+                   this.parentElement.querySelector('.char-img-fallback').style.display = 'block';
+                };
+                this.src = fileName + ".jpg"; 
             };
-            imgElement.src = fileName + ".jpg";
+            // Note: fileName is now Uppercase (e.g. "LUFFY")
+            // So this sets src to "LUFFY.jpg" if "LUFFY.png" fails
+            this.src = fileName + ".jpg";
         }
 
         function placeCardInCorrectTier(cardElement, score) {
